@@ -3,16 +3,16 @@ name: Build Rust CLI
 on:
   push:
     branches: ["main"]
-    paths:
-      - "src/**"
-      - "Cargo.toml"
-      - "Cargo.lock"
+    paths-ignore:
+      - ".gitignore"
+      - "LICENSE"
+      - "README**"
   pull_request:
     branches: ["main"]
-    paths:
-      - "src/**"
-      - "Cargo.toml"
-      - "Cargo.lock"
+    paths-ignore:
+      - ".gitignore"
+      - "LICENSE"
+      - "README**"
 
 jobs:
   build:
