@@ -1,14 +1,12 @@
 name: Build Rust CLI
 
+permissions:
+  contents: write
+
 on:
   push:
     branches: ["main"]
-    paths-ignore:
-      - ".gitignore"
-      - "LICENSE"
-      - "README**"
-  pull_request:
-    branches: ["main"]
+    tags: ["v*"]
     paths-ignore:
       - ".gitignore"
       - "LICENSE"
@@ -42,8 +40,8 @@ jobs:
       - name: Build project
         run: cargo build --release
 
-      - name: Upload artifact
-        uses: actions/upload-artifact@v6
+      - name: Release
+        uses: softprops/action-gh-release@v2
+        if: github.ref_type == 'tag'
         with:
-          name: ${{ matrix.artifact_name }}
-          path: target/release/${{ matrix.asset_name }}
+          files: target/release/${{ matrix.asset_name }}
