@@ -40,8 +40,26 @@ jobs:
       - name: Build project
         run: cargo build --release
 
+      - name: Upload artifact
+        uses: actions/upload-artifact@v6
+        with:
+          name: ${{ matrix.artifact_name }}
+          path: target/release/${{ matrix.asset_name }}
+          if-no-files-found: error
+
+  release:
+    name: Publish Release
+    needs: build
+    runs-on: ubuntu-latest
+    if: github.ref_type == 'tag'
+    steps:
+      - name: Download artifacts
+        uses: actions/download-artifact@v6
+        with:
+          path: bins
+          merge-multiple: true
       - name: Release
         uses: softprops/action-gh-release@v2
-        if: github.ref_type == 'tag'
         with:
-          files: target/release/${{ matrix.asset_name }}
+          files: release-binaries/*
+          fail_on_unmatched_files: true
