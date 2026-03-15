@@ -5,6 +5,7 @@ version = "0.1.0"
 edition = "2024"
 license-file = "LICENSE"
 repository = "https://github.com/29th-Day/serial"
+publish = false
 
 [dependencies]
 clap = { version = "4", features = ["derive"] }
